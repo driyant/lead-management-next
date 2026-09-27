@@ -34,3 +34,15 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Quality gates
+
+`pnpm test` runs the unit tests and enforces a minimum 80% threshold for statements, branches, functions, and lines. `pnpm build` runs that same test command before building, so a failed test or insufficient coverage fails the Vercel deployment.
+
+GitHub Actions runs `pnpm run ci` for every push and pull request. Husky blocks a commit unless its message follows Conventional Commits (for example, `feat: add lead filter`) and blocks a push unless `pnpm test` passes.
+
+After cloning the repository, install dependencies once to initialize the hooks:
+
+```bash
+pnpm install
+```

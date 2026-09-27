@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development next dev",
-    "build": "cross-env NODE_ENV=production next build",
+    "build": "pnpm test && cross-env NODE_ENV=production next build",
+    "ci": "pnpm test && cross-env NODE_ENV=production next build",
     "start": "cross-env NODE_ENV=production next start",
     "lint": "next lint",
-    "test": "cross-env NODE_ENV=test vitest run",
-    "test:watch": "cross-env NODE_ENV=test vitest"
+    "test": "cross-env NODE_ENV=test vitest run --coverage",
+    "test:watch": "cross-env NODE_ENV=test vitest",
+    "prepare": "husky"
   },
   "dependencies": {
     "@chakra-ui/next-js": "^2.4.2",
@@ -30,9 +32,12 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.1.1",
     "@vitest/coverage-v8": "5.0.2",
+    "@commitlint/cli": "^20.4.1",
+    "@commitlint/config-conventional": "^20.4.1",
     "cross-env": "^10.1.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.6",
+    "husky": "^9.1.7",
     "jsdom": "^30.1.1",
     "react-icons": "^5.7.0",
     "typescript": "^5",
