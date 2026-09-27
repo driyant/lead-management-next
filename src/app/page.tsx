@@ -8,7 +8,7 @@ import { Suspense } from "react";
 
 export const dynamic = "force-dynamic";
 
-async function getLeads(): Promise<Lead[]> {
+export async function getLeads(): Promise<Lead[]> {
   try {
     const response = await api.get("/api/leads");
     return response.data.leads || leads;
@@ -18,7 +18,7 @@ async function getLeads(): Promise<Lead[]> {
   }
 }
 
-async function LeadsDashboard() {
+export async function LeadsDashboard() {
   const leads = await getLeads();
 
   return <Dashboard initialLeads={leads} />;
