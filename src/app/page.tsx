@@ -1,13 +1,35 @@
-"use client";
+// src/app/page.tsx
+import Dashboard from "../app/components/Dashboard";
+import { Box } from "@chakra-ui/react";
+import { Lead } from "../app/interface";
+import api from "../app/lib/api";
+import { leads } from "../app/constants";
+import { Suspense } from "react";
 
-import { Box, Heading, Text, Button } from "@chakra-ui/react";
+export const dynamic = "force-dynamic";
 
-export default function Home() {
+async function getLeads(): Promise<Lead[]> {
+  try {
+    const response = await api.get("/api/leads");
+    return response.data.leads || leads;
+  } catch (error) {
+    console.error("Error fetching leads:", error);
+    return leads;
+  }
+}
+
+async function LeadsDashboard() {
+  const leads = await getLeads();
+
+  return <Dashboard initialLeads={leads} />;
+}
+
+export default function Page() {
   return (
-    <Box p={8}>
-      <Heading mb={4}>Lead Manager Dashboard</Heading>
-      <Text mb={4}>Chakra UI</Text>
-      <Button colorScheme="blue">Test Button</Button>
+    <Box minH="100vh" bg="gray.50">
+      <Suspense fallback={<Dashboard isLeadsLoading />}>
+        <LeadsDashboard />
+      </Suspense>
     </Box>
   );
 }
